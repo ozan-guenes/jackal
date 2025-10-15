@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <!-- AprilTag with baked texture (DAE) -->
+  <xacro:macro name="apriltag"
+               params="parent_link:=mid_mount
+                       size:=1.0
+                       thickness:=0.003
+                       mesh_file:='package://jackal_description/meshes/tag36_11_00002.dae'
+                       tag_xyz:='0 0 0'
+                       tag_rpy:='0 0 0'
+                       density:=900.0 
+                       dock_xyz:= '0 0 0'
+                       dock_rpy:= '0 0 0'">    <!-- kg/m^3: light plastic/foam-ish -->
+
+    <xacro:property name="mass" value="${size*size*thickness*density}"/>
+
+    <link name="apriltag_link">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="${mass}" />
+        <!-- Inertia of a box (size x size x thickness) about its center: -->
+        <!-- Ixx = 1/12 m (size^2 + thickness^2), same for Iyy; Izz = 1/12 m (size^2 + size^2) -->
+        <inertia ixx="${(1/12.0)*size*size*mass}" 
+                 iyy="${(1/12.0)*size*size*mass}" 
+                 izz="${(1/12.0)*thickness*thickness*mass}"
+                 ixy="0" ixz="0" iyz="0"/>
+      </inertial>
+
+      <!-- Visual: DO NOT add a <material> here; let the DAE texture show -->
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="${mesh_file}" 
+                scale="${size} ${size} ${size}"/>
+        </geometry>
+      </visual>
+
+      <!-- Simple collision for stability -->
+      <!-- <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="${size} ${size} ${thickness}"/>
+        </geometry>
+      </collision> -->
+    </link>
+
+    <joint name="apriltag_joint" type="fixed">
+      <parent link="${parent_link}"/>
+      <child  link="apriltag_link"/>
+      <origin xyz="${tag_xyz}" rpy="${tag_rpy}"/>
+    </joint>
+
+    <gazebo reference="apriltag_link">
+      <turnGravityOff>false</turnGravityOff>
+      <!-- <material>
+        <script> <!- - one more way to make it brighter - use .sdf files settings, try if necessary, og - ->
+          <uri>model://Apriltag36_11_00002/materials/scripts</uri>
+          <uri>model://Apriltag36_11_00002/materials/textures</uri>
+          <name>Apriltag36_11_00002</name>
+        </script>
+      </material> -->
+      <!-- <lighting>false</lighting> <!- - "" .... og - -> -->
+    </gazebo> 
+
+    <link name="dock"/>
+    <joint name="dock_joint" type="fixed">
+      <parent link="apriltag_link"/>
+      <child  link="dock"/>
+      <origin xyz="${dock_xyz}" rpy="${dock_rpy}"/>
+    </joint>
+
+  </xacro:macro>
+</robot>

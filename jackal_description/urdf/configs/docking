@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# Enable the docking accessory and set its mount pose
+export JACKAL_DOCKING=1
+export JACKAL_DOCKINGFIXTURE_PARENT=mid_mount
+export JACKAL_DOCKINGFIXTURE_OFFSET="0 0 0"
+export JACKAL_DOCKINGFIXTURE_RPY="0 0 0"
+export JACKAL_DOCKINGFIXTURE_SCALE="1 1 1"
+export JACKAL_DOCKINGFIXTURE_MASS=0.1
+# export JACKAL_DOCKINGFIXTURE_MESH=package://jackal_description/meshes/docking_fixture.dae
+
+export JACKAL_DOCK_XYZ="-0.40 0 0.175"
+export JACKAL_DOCK_RPY="0 0 3.1415"
+
+export JACKAL_TAG=1
+export JACKAL_TAG_PARENT=mid_mount
+export JACKAL_TAG_SIZE=0.10
+export JACKAL_TAG_OFFSET="0 0 0.25"  
+export JACKAL_TAG_RPY="0 0 0"
+export JACKAL_TAG_MESH=package://jackal_description/meshes/tag36_11_00002.dae

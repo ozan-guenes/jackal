@@ -497,4 +497,36 @@
     </gazebo>
   </xacro:if>
 
+  <!-- Docking fixture (enable with JACKAL_DOCKING=1 in configs/docking) -->
+  <xacro:include filename="$(find jackal_description)/urdf/accessories/docking_fixture.urdf.xacro" />
+  <xacro:if value="$(optenv JACKAL_DOCKING 0)">
+    <xacro:property name="parent"       value="$(optenv JACKAL_DOCKINGFIXTURE_PARENT mid_mount)" />
+    <xacro:property name="fixture_xyz"  value="$(optenv JACKAL_DOCKINGFIXTURE_OFFSET 0 0 0.12)" />
+    <xacro:property name="fixture_rpy"  value="$(optenv JACKAL_DOCKINGFIXTURE_RPY 0 0 0)" />
+    <xacro:property name="mesh"         value="$(optenv JACKAL_DOCKINGFIXTURE_MESH package://jackal_description/meshes/docking_fixture.dae)" />
+    <xacro:property name="scale"        value="$(optenv JACKAL_DOCKINGFIXTURE_SCALE 1 1 1)" />
+    <xacro:property name="mass"         value="$(optenv JACKAL_DOCKINGFIXTURE_MASS 1.0)" />
+
+    <xacro:docking_fixture   parent_link ="${parent}"
+                             mesh_file   ="${mesh}"
+                             scale       ="${scale}"
+                             mass        ="${mass}"
+                             fixture_xyz ="${fixture_xyz}" fixture_rpy ="${fixture_rpy}" />
+  </xacro:if>
+
+  <!-- AprilTag accessory (enable with JACKAL_TAG=1 in configs/docking) -->
+  <xacro:include filename="$(find jackal_description)/urdf/accessories/apriltag.urdf.xacro"/>
+  <xacro:if value="$(optenv JACKAL_TAG 0)">
+    <xacro:property name="dock_xyz"     value="$(optenv JACKAL_DOCK_XYZ 0 0 0)" />
+    <xacro:property name="dock_rpy"     value="$(optenv JACKAL_DOCK_RPY 0 0 0)" />
+
+    <xacro:apriltag         parent_link ="$(optenv JACKAL_TAG_PARENT mid_mount)"
+                            size        ="$(optenv JACKAL_TAG_SIZE 1.0)"
+                            thickness   ="$(optenv JACKAL_TAG_THICKNESS 0.003)"
+                            mesh_file   ="$(optenv JACKAL_TAG_MESH package://jackal_description/meshes/tag36_11_00002.dae)"
+                            tag_xyz         ="$(optenv JACKAL_TAG_OFFSET 0 0 0)"
+                            tag_rpy         ="$(optenv JACKAL_TAG_RPY 0 0 0)"
+                            dock_xyz    ="${dock_xyz}"  dock_rpy="${dock_rpy}" />
+  </xacro:if>
+
 </robot>

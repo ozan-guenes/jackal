@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!--
+    Docking fixture accessory.
+    Mounts to one of the Jackal's top mount frames: rear_mount | mid_mount | front_mount
+  -->
+
+  <xacro:macro name="docking_fixture"
+               params="parent_link    := mid_mount
+                       mesh_file      :='package://jackal_description/meshes/docking_fixture.dae'
+                       fixture_xyz    := '0 0 0'
+                       fixture_rpy    := '0 0 0'
+                       scale          := '1 1 1'
+                       mass           := 1.0
+                       ixx:=0.02 iyy:=0.02 izz:=0.02 ixy:=0 ixz:=0 iyz:=0 ">
+
+    <!-- Visual/Collision link -->
+    <link name="docking_fixture">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="${mass}"/>
+        <inertia ixx="${ixx}" ixy="${ixy}" ixz="${ixz}"
+                 iyy="${iyy}" iyz="${iyz}" izz="${izz}"/>
+      </inertial>
+
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="${mesh_file}" scale="${scale}"/>
+        </geometry>
+        <!-- <material name="dark_grey"/> -->
+      </visual>
+
+      <!-- Keep collision simple at first for stability; swap to mesh if needed -->
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <!-- Approximate as a box initially; replace with mesh if needed -->
+          <!-- <box size="0.200 0.315 0.500"/> -->
+          <mesh filename="${mesh_file}" scale="${scale}"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="docking_fixture_joint" type="fixed">
+      <parent link="${parent_link}"/>
+      <child  link="docking_fixture"/>
+      <origin xyz="${fixture_xyz}" rpy="${fixture_rpy}"/>
+    </joint>
+
+    <!-- Gazebo material/physics (optional) -->
+    <gazebo reference="docking_fixture">
+      <!-- <material>Gazebo/Grey</material> -->
+      <turnGravityOff>false</turnGravityOff>
+    </gazebo>
+
+  </xacro:macro>
+</robot>
