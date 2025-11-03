@@ -4,6 +4,11 @@ This packages contains the meshes and URDF of the Jackal robot, its supported se
 
 # Jackal Payloads
 
+## Docking
+```bash
+export JACKAL_DOCKING=1
+export JACKAL_TAG=1 # for tag based detection
+```
 ## Microstrain IMU
 ```bash
 export JACKAL_IMU_MICROSTRAIN=1
