@@ -11,9 +11,13 @@ export JACKAL_DOCKINGFIXTURE_MASS=0.1
 # Enable apriltag accessory
 export JACKAL_TAG=1
 export JACKAL_TAG_PARENT=mid_mount
+export JACKAL_TAG_OFFSET="0 0 0.25"
+export JACKAL_TAG_RPY="1.5708 0 -1.5708"
 export JACKAL_TAG_SIZE=0.10
-export JACKAL_TAG_OFFSET="0 0 0.25"  
-export JACKAL_TAG_RPY="0 0 0"
-export JACKAL_TAG_MESH=package://jackal_description/meshes/tag36_11_00002.dae
-export JACKAL_DOCK_XYZ="-0.40 0 0.175"  # position of dock with respect to tag
-export JACKAL_DOCK_RPY="0 0 3.1415"     # orientation -""-
+# export JACKAL_TAG_MESH=package://jackal_description/meshes/tag36_11_00002.dae
+export JACKAL_DOCK_XYZ="0 0.175 0.40" # dock with respect to tag - tag to dock
+export JACKAL_DOCK_RPY="-1.5708 1.5708 0" # -"-
+
+# old, working pose with old tag.dae (_tag36_11_00002.dae)
+# _export JACKAL_DOCK_XYZ="-0.40 0 0.175"  
+# _export JACKAL_DOCK_RPY="0 0 3.1416"    

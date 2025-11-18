@@ -23,7 +23,6 @@
         <inertia ixx="${ixx}" ixy="${ixy}" ixz="${ixz}"
                  iyy="${iyy}" iyz="${iyz}" izz="${izz}"/>
       </inertial>
-
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
@@ -31,14 +30,11 @@
         </geometry>
         <!-- <material name="dark_grey"/> -->
       </visual>
-
-      <!-- Keep collision simple at first for stability; swap to mesh if needed -->
       <collision>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <origin xyz="0.09 0 0.25" rpy="0 0 0"/>
         <geometry>
-          <!-- Approximate as a box initially; replace with mesh if needed -->
-          <!-- <box size="0.200 0.315 0.500"/> -->
-          <mesh filename="${mesh_file}" scale="${scale}"/>
+          <box size="0.200 0.315 0.500"/>
+          <!-- <mesh filename="${mesh_file}" scale="${scale}"/> -->
         </geometry>
       </collision>
     </link>

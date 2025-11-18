@@ -10,7 +10,7 @@
                        tag_rpy:='0 0 0'
                        density:=900.0 
                        dock_xyz:= '0 0 0'
-                       dock_rpy:= '0 0 0'">    <!-- kg/m^3: light plastic/foam-ish -->
+                       dock_rpy:= '0 0 0'">    <!-- kg/m³: light plastic/foam-ish (0.9 g/cm³)-->
 
     <xacro:property name="mass" value="${size*size*thickness*density}"/>
 
@@ -25,8 +25,6 @@
                  izz="${(1/12.0)*thickness*thickness*mass}"
                  ixy="0" ixz="0" iyz="0"/>
       </inertial>
-
-      <!-- Visual: DO NOT add a <material> here; let the DAE texture show -->
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
@@ -34,7 +32,6 @@
                 scale="${size} ${size} ${size}"/>
         </geometry>
       </visual>
-
       <!-- Simple collision for stability -->
       <!-- <collision>
         <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -50,19 +47,28 @@
       <origin xyz="${tag_xyz}" rpy="${tag_rpy}"/>
     </joint>
 
-    <gazebo reference="apriltag_link">
+    <!-- <gazebo reference="apriltag_link">
       <turnGravityOff>false</turnGravityOff>
-      <!-- <material>
+      <!- - <material>
         <script> <!- - one more way to make it brighter - use .sdf files settings, try if necessary, og - ->
           <uri>model://Apriltag36_11_00002/materials/scripts</uri>
           <uri>model://Apriltag36_11_00002/materials/textures</uri>
           <name>Apriltag36_11_00002</name>
         </script>
-      </material> -->
-      <!-- <lighting>false</lighting> <!- - "" .... og - -> -->
-    </gazebo> 
+      </material> - ->
+      <!- - <lighting>false</lighting> <!- - "" .... og - -> - ->
+    </gazebo>  -->
 
-    <link name="dock"/>
+    <link name="dock">
+      <collision>
+        <origin xyz="0.15 0 0" rpy="0 1.5708 0"/>
+        <geometry>
+          <cylinder radius="0.02" length="0.1" />
+          <!-- <mesh filename="${mesh_file}" scale="${scale}"/> -->
+        </geometry>
+      </collision>
+    </link>
+
     <joint name="dock_joint" type="fixed">
       <parent link="apriltag_link"/>
       <child  link="dock"/>
